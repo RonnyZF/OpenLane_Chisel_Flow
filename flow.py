@@ -129,6 +129,7 @@ def main():
                 prepare_chissel(str(apr_num),str(pri_type),str(sub_type))
                 run_chissel()
                 prepare_openlane()
+                
                 run_openlane()
                 extract_area()
                 extract_power()
