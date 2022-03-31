@@ -5,28 +5,21 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import EngFormatter
 
+
 def clean_database(path):
     print("Cleaning database \n")
     os.chdir(path+'/outputs/')
-    subprocess.run(            
-            "mv database.csv database.csv_old", shell=True)
-    subprocess.run(            
-            "rm -rfv database.csv", shell=True)
+    subprocess.run(
+        "mv database.csv database.csv_old", shell=True)
+    subprocess.run(
+        "rm -rfv database.csv", shell=True)
 
 
 def database_output(path, apr_num, sum, area, power, NMED_N, NMED_T, NMED_D):
     print("Saving database \n")
     os.chdir(path+'/outputs/')
-    subprocess.run("pwd", shell=True)
-
     with open("database.csv", "a", newline="") as file:
         writer = csv.writer(file, delimiter=',')
-        ##print (sum_array)
-        ##print (expected_normal)
-        ##print (got_triangular)
-        ##print (expected_triangular)
-        ##print (got_discrete)
-        ##print (expected_discrete)
         for a in range(4):
             apr_num_out = apr_num[a]
             sum_out = sum[a]
@@ -35,8 +28,9 @@ def database_output(path, apr_num, sum, area, power, NMED_N, NMED_T, NMED_D):
             NMED_N_out = NMED_N[a]
             NMED_T_out = NMED_T[a]
             NMED_D_out = NMED_D[a]
-            writer.writerow([apr_num_out, sum_out, area_out, power_out, NMED_N_out, NMED_T_out, NMED_D_out])
-        # file.close
+            writer.writerow([apr_num_out, sum_out, area_out,
+                            power_out, NMED_N_out, NMED_T_out, NMED_D_out])
+    file.close
 
 
 """

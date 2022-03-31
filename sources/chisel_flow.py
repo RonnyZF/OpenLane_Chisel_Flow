@@ -129,4 +129,3 @@ def extract_approx_error_discrete_dist(path, indx, NMED_D):
         ed_i = 0
     NMED_D[int(indx)-1] = ed_i
     print(NMED_D)
-

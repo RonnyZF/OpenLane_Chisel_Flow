@@ -45,25 +45,25 @@ def run_openlane(path, indx):  # CAMBIAR EL DOCKER ID
     os.chdir(path+"/target/OpenLane_"+indx)
     #subprocess.run("make mount", shell=True)
     # automatizaro la obtencion del nombre
-    if(int(indx)==1):
-        #subprocess.run(
+    if(int(indx) == 1):
+        # subprocess.run(
         #    "docker exec -it tender_shaw ./flow.tcl -design RcaAdder_A_1 -init_design_config", shell=True)
         subprocess.run(
             "docker exec -it tender_shaw ./flow.tcl -design RcaAdder_A_1 -to synthesis", shell=True)
-    elif(int(indx)==2):
-        #subprocess.run(
+    elif(int(indx) == 2):
+        # subprocess.run(
         #    "docker exec -it frosty_merkle ./flow.tcl -design RcaAdder_A_1 -init_design_config", shell=True)
         subprocess.run(
             "docker exec -it frosty_merkle ./flow.tcl -design RcaAdder_A_1 -to synthesis", shell=True)
-    elif(int(indx)==3):
-        #subprocess.run(
+    elif(int(indx) == 3):
+        # subprocess.run(
         #    "docker exec -it hungry_babbage ./flow.tcl -design RcaAdder_A_1 -init_design_config", shell=True)
         subprocess.run(
             "docker exec -it hungry_babbage ./flow.tcl -design RcaAdder_A_1 -to synthesis", shell=True)
-    elif(int(indx)==4):
-        #subprocess.run(
+    elif(int(indx) == 4):
+        # subprocess.run(
         #    "docker exec -it compassionate_moser ./flow.tcl -design RcaAdder_A_1 -init_design_config", shell=True)
-        subprocess.run(            
+        subprocess.run(
             "docker exec -it compassionate_moser ./flow.tcl -design RcaAdder_A_1 -to synthesis", shell=True)
 
 
@@ -88,7 +88,7 @@ def extract_area(path, indx, AREA):
     file.close()
     parse = extlines[cnt-1].split(" ")
     AREA[int(indx)-1] = float(parse[2])
-    #print(AREA)
+    # print(AREA)
     ##print("tesing area array", area_array)
 
 
@@ -113,5 +113,5 @@ def extract_power(path, indx, POWER):
     file.close()
     parse = extlines[cnt+9].split(" ")
     POWER[int(indx)-1] = float(parse[27])
-    #print(POWER)
+    # print(POWER)
     # print(power_array)

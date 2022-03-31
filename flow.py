@@ -19,8 +19,8 @@ NMED_D = manager.dict()
 AREA = manager.dict()
 POWER = manager.dict()
 
-count = [0,0,0,0]
-sum = [0,0,0,0]
+count = [0, 0, 0, 0]
+sum = [0, 0, 0, 0]
 sum_array = []
 jobs = []
 
@@ -35,34 +35,37 @@ def main():
     end = len(sum_type_array)
     n_iter = end*end*end*end*end
     l_num = 0
-    bar = progressbar.ProgressBar(maxval=n_iter, \
-	widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
+    bar = progressbar.ProgressBar(maxval=n_iter,
+                                  widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
     bar.start()
 
     path = env.define_dir_path()
     data.clean_database(path)
-    env.create_chisel_copy(path)
-    #env.create_openlane_copy(path)
+    # env.create_chisel_copy(path)
+    # env.create_openlane_copy(path)
 
     for a in range(len(sum_type_array)):
         for b in range(len(sum_type_array)):
             for c in range(len(sum_type_array)):
                 for d in range(len(sum_type_array)):
-                    for e in range(0,end,4):
+                    for e in range(0, end, 4):
 
                         for n in range(4):
                             bar.update(l_num+1)
                             try:
                                 sum[n] = sum_type_array[e+n]+","+sum_type_array[d]+","+sum_type_array[c] + \
-                                    ","+sum_type_array[b]+"," + sum_type_array[a]+",F0,F0,F0"
+                                    ","+sum_type_array[b]+"," + \
+                                    sum_type_array[a]+",F0,F0,F0"
                                 count[n] = 8 - sum[n].count("F0")
-                                #sum_array.append(sum[n])
+                                # sum_array.append(sum[n])
                             except:
                                 print('the whatever error occurred.')
-                        #clean openlane
+
+                        # clean openlane
                         for n in range(4):
                             try:
-                                p = Process(target=openlane.clean_openlane_runs, args=(path,str(n+1), ))
+                                p = Process(
+                                    target=openlane.clean_openlane_runs, args=(path, str(n+1), ))
                                 jobs.append(p)
                                 p.start()
                             except:
@@ -73,10 +76,11 @@ def main():
                             except:
                                 print('the whatever error occurred.')
 
-                        #prepare chisel
+                        # prepare chisel
                         for n in range(4):
                             try:
-                                p = Process(target=chisel.prepare_chissel, args=(path,str(n+1),str(count[n]), sum[n], ))
+                                p = Process(target=chisel.prepare_chissel, args=(
+                                    path, str(n+1), str(count[n]), sum[n], ))
                                 jobs.append(p)
                                 p.start()
                             except:
@@ -87,10 +91,11 @@ def main():
                             except:
                                 print('the whatever error occurred.')
 
-                        #run chisel
+                        # run chisel
                         for n in range(4):
                             try:
-                                p = Process(target=chisel.run_chissel, args=(path,str(n+1), ))
+                                p = Process(target=chisel.run_chissel,
+                                            args=(path, str(n+1), ))
                                 jobs.append(p)
                                 p.start()
                             except:
@@ -101,10 +106,11 @@ def main():
                             except:
                                 print('the whatever error occurred.')
 
-                        #extract nmed_n
+                        # extract nmed_n
                         for n in range(4):
                             try:
-                                p = Process(target=chisel.extract_approx_error_normal_dist, args=(path,str(n+1),NMED_N, ))
+                                p = Process(target=chisel.extract_approx_error_normal_dist, args=(
+                                    path, str(n+1), NMED_N, ))
                                 jobs.append(p)
                                 p.start()
                             except:
@@ -115,10 +121,11 @@ def main():
                             except:
                                 print('the whatever error occurred.')
 
-                        #extract nmed_t
+                        # extract nmed_t
                         for n in range(4):
                             try:
-                                p = Process(target=chisel.extract_approx_error_triangular_dist, args=(path,str(n+1),NMED_T, ))
+                                p = Process(target=chisel.extract_approx_error_triangular_dist, args=(
+                                    path, str(n+1), NMED_T, ))
                                 jobs.append(p)
                                 p.start()
                             except:
@@ -129,10 +136,11 @@ def main():
                             except:
                                 print('the whatever error occurred.')
 
-                        #extract nmed_d
+                        # extract nmed_d
                         for n in range(4):
                             try:
-                                p = Process(target=chisel.extract_approx_error_discrete_dist, args=(path,str(n+1),NMED_D, ))
+                                p = Process(target=chisel.extract_approx_error_discrete_dist, args=(
+                                    path, str(n+1), NMED_D, ))
                                 jobs.append(p)
                                 p.start()
                             except:
@@ -143,10 +151,11 @@ def main():
                             except:
                                 print('the whatever error occurred.')
 
-                        #Prepare openlane
+                        # Prepare openlane
                         for n in range(4):
                             try:
-                                p = Process(target=openlane.prepare_openlane, args=(path,str(n+1), ))
+                                p = Process(
+                                    target=openlane.prepare_openlane, args=(path, str(n+1), ))
                                 jobs.append(p)
                                 p.start()
                             except:
@@ -157,10 +166,11 @@ def main():
                             except:
                                 print('the whatever error occurred.')
 
-                        #run openlane
+                        # run openlane
                         for n in range(4):
                             try:
-                                p = Process(target=openlane.run_openlane, args=(path,str(n+1), ))
+                                p = Process(
+                                    target=openlane.run_openlane, args=(path, str(n+1), ))
                                 jobs.append(p)
                                 p.start()
                             except:
@@ -171,10 +181,11 @@ def main():
                             except:
                                 print('the whatever error occurred.')
 
-                        #extraxt area
+                        # extraxt area
                         for n in range(4):
                             try:
-                                p = Process(target=openlane.extract_area, args=(path,str(n+1),AREA, ))
+                                p = Process(target=openlane.extract_area, args=(
+                                    path, str(n+1), AREA, ))
                                 jobs.append(p)
                                 p.start()
                             except:
@@ -185,10 +196,11 @@ def main():
                             except:
                                 print('the whatever error occurred.')
 
-                        #extraxt power
+                        # extraxt power
                         for n in range(4):
                             try:
-                                p = Process(target=openlane.extract_power, args=(path,str(n+1),POWER, ))
+                                p = Process(target=openlane.extract_power, args=(
+                                    path, str(n+1), POWER, ))
                                 jobs.append(p)
                                 p.start()
                             except:
@@ -199,7 +211,8 @@ def main():
                             except:
                                 print('the whatever error occurred.')
 
-                        data.database_output(path,count,sum,AREA,POWER,NMED_N,NMED_T,NMED_D)
+                        data.database_output(
+                            path, count, sum, AREA, POWER, NMED_N, NMED_T, NMED_D)
     # plot_data()
 
 
