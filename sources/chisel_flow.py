@@ -4,9 +4,9 @@ import re
 import sources.replace as replace_lib
 
 
-def prepare_chissel(apr_num, sum_type):
-    print("Preparing Chissel \n \n")
-    os.chdir('/home/prj/chisel-test/src/test/scala/RCA')
+def prepare_chissel(path, indx, apr_num, sum_type):
+    print("Preparing Chissel for process "+indx+"\n")
+    os.chdir(path+'/target/chisel-test_'+indx+'/src/test/scala/RCA')
     subprocess.run(
         "cp /home/prj/design-flow/sources/Launcher.scala Launcher.scala", shell=True)
     replace_lib.replace("Launcher.scala", "APR_NUM_SUB", apr_num)
@@ -14,17 +14,17 @@ def prepare_chissel(apr_num, sum_type):
     # Run Chisel test
 
 
-def run_chissel():
-    print("Run Chissel \n \n")
-    os.chdir('/home/prj/chisel-test')
+def run_chissel(path, indx):
+    print("Run Chissel for process "+indx+"\n")
+    os.chdir(path+'/target/chisel-test_'+indx)
     subprocess.run(
-        "sbt 'test:runMain RCA.Launcher RCA_A' --> /home/prj/chisel-test/test_run_dir/RCA/RCA_A/test.txt", shell=True)
+        "sbt 'test:runMain RCA.Launcher RCA_A' --> "+path+"/target/chisel-test_"+indx+"/test_run_dir/RCA/RCA_A/test.txt", shell=True)
     # Extract NMED from Normal Distribution
 
 
-def extract_approx_error_normal_dist():
-    print(" \n \n Extract normal dist approximation error \n \n")
-    os.chdir('/home/prj/chisel-test/test_run_dir/RCA/RCA_A/')
+def extract_approx_error_normal_dist(path, indx, NMED_N):
+    print("Extract normal dist approximation error for process "+indx+"\n")
+    os.chdir(path+'/target/chisel-test_'+indx+'/test_run_dir/RCA/RCA_A/')
     pattern = re.compile("NORMAL DIST")
     found_lines = []
     for i, line in enumerate(open('test.txt')):
@@ -53,14 +53,16 @@ def extract_approx_error_normal_dist():
         ed_i = ((1/len(tmp_a)) * ed_s)
     else:
         ed_i = 0
-    NMED_N = ed_i
-    return NMED_N
+    print(int(indx)+5)
+    print(ed_i)
+    NMED_N[int(indx)-1] = ed_i
+    print(NMED_N)
     # Extract NMED from Triangular Distribution
 
 
-def extract_approx_error_triangular_dist():
-    print(" \n \n Extract triangular dist approximation error \n \n")
-    os.chdir('/home/prj/chisel-test/test_run_dir/RCA/RCA_A/')
+def extract_approx_error_triangular_dist(path, indx, NMED_T):
+    print("Extract triangular dist approximation error for process "+indx+"\n")
+    os.chdir(path+'/target/chisel-test_'+indx+'/test_run_dir/RCA/RCA_A/')
     pattern = re.compile("TRIANGULAR DIST")
     found_lines = []
     for i, line in enumerate(open('test.txt')):
@@ -89,14 +91,14 @@ def extract_approx_error_triangular_dist():
         ed_i = ((1/len(tmp_a)) * ed_s)
     else:
         ed_i = 0
-    NMED_T = ed_i
-    return NMED_T
+    NMED_T[int(indx)-1] = ed_i
+    print(NMED_T)
     # Extract NMED from Discrete Distribution
 
 
-def extract_approx_error_discrete_dist():
-    print(" \n \n Extract discrete approximation error \n \n")
-    os.chdir('/home/prj/chisel-test/test_run_dir/RCA/RCA_A/')
+def extract_approx_error_discrete_dist(path, indx, NMED_D):
+    print("Extract discrete approximation error for process "+indx+"\n")
+    os.chdir(path+'/target/chisel-test_'+indx+'/test_run_dir/RCA/RCA_A/')
     pattern = re.compile("DISCRETE DIST")
     found_lines = []
     for i, line in enumerate(open('test.txt')):
@@ -125,5 +127,6 @@ def extract_approx_error_discrete_dist():
         ed_i = ((1/len(tmp_a)) * ed_s)
     else:
         ed_i = 0
-    NMED_D = ed_i
-    return NMED_D
+    NMED_D[int(indx)-1] = ed_i
+    print(NMED_D)
+

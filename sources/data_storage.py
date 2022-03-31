@@ -5,10 +5,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import EngFormatter
 
+def clean_database(path):
+    print("Cleaning database \n")
+    os.chdir(path+'/outputs/')
+    subprocess.run(            
+            "mv database.csv database.csv_old", shell=True)
+    subprocess.run(            
+            "rm -rfv database.csv", shell=True)
 
-def database_output(apr_num, sum, area, power, NMED_N, NMED_T, NMED_D):
-    print(" \n \n Creating database \n \n")
-    os.chdir('/home/prj/design-flow/outputs/')
+
+def database_output(path, apr_num, sum, area, power, NMED_N, NMED_T, NMED_D):
+    print("Saving database \n")
+    os.chdir(path+'/outputs/')
     subprocess.run("pwd", shell=True)
 
     with open("database.csv", "a", newline="") as file:
@@ -19,8 +27,15 @@ def database_output(apr_num, sum, area, power, NMED_N, NMED_T, NMED_D):
         ##print (expected_triangular)
         ##print (got_discrete)
         ##print (expected_discrete)
-        writer.writerow(
-            [apr_num, sum, area, power, NMED_N, NMED_T, NMED_D])
+        for a in range(4):
+            apr_num_out = apr_num[a]
+            sum_out = sum[a]
+            area_out = area[a]
+            power_out = power[a]
+            NMED_N_out = NMED_N[a]
+            NMED_T_out = NMED_T[a]
+            NMED_D_out = NMED_D[a]
+            writer.writerow([apr_num_out, sum_out, area_out, power_out, NMED_N_out, NMED_T_out, NMED_D_out])
         # file.close
 
 

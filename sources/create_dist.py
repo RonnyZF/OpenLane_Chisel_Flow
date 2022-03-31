@@ -3,15 +3,15 @@ import subprocess
 import numpy as np
 
 
-def create_triangular_dist():
+def create_triangular_dist(path):
     dist_w = []
     tri_1 = []
     tri_2 = []
     tri_C = []
     test = 0
-    print(" \n \n Creating Triangular Distribution \n \n")
-    os.chdir('/home/prj/design-flow/outputs/')
-    subprocess.run("pwd", shell=True)
+    print("Creating Triangular Distribution \n ")
+    os.chdir(path+'/outputs/')
+    #subprocess.run("pwd", shell=True)
     dist_w = list(np.random.triangular(0, 128, 256, 2150))
     for i in range(len(dist_w)):
         test = round(dist_w[i])
@@ -35,23 +35,20 @@ def create_triangular_dist():
         for line in range(len(tri_C)):
             txt_file.write(tri_C[line] + "\n")
     txt_file.close
-    subprocess.run(
-        "cp triangular.txt /home/prj/chisel-test/distributions/triangular.txt", shell=True)
     dist_w.clear()
     tri_1.clear()
     tri_2.clear()
     tri_C.clear()
 
 
-def create_discrete_dist():
+def create_discrete_dist(path):
     dist_w = []
     tri_1 = []
     tri_2 = []
     tri_C = []
     test = 0
-    print(" \n \n Creating Discrete Distribution \n \n")
-    os.chdir('/home/prj/design-flow/outputs/')
-    subprocess.run("pwd", shell=True)
+    print("Creating Discrete Distribution \n")
+    os.chdir(path+'/outputs/')
     dist_w = list(np.random.uniform(0, 256, 2150))
     for i in range(len(dist_w)):
         test = round(dist_w[i])
@@ -75,9 +72,15 @@ def create_discrete_dist():
         for line in range(len(tri_C)):
             txt_file.write(tri_C[line] + "\n")
     txt_file.close
-    subprocess.run(
-        "cp discrete.txt /home/prj/chisel-test/distributions/discrete.txt", shell=True)
+    
     dist_w.clear()
     tri_1.clear()
     tri_2.clear()
     tri_C.clear()
+
+def copy_dist(path, indx):
+    os.chdir(path+'/outputs/')
+    subprocess.run(
+        "cp discrete.txt "+path+"/target/chisel-test_"+indx+"/distributions/discrete.txt", shell=True)
+    subprocess.run(
+        "cp triangular.txt "+path+"/target/chisel-test_"+indx+"/distributions/triangular.txt", shell=True)
