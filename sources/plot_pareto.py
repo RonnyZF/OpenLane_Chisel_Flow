@@ -71,6 +71,11 @@ for i in range(len(idx)):
 	t.add_row([idx[i], num_apprx[idx[i]], sum_type[idx[i]], area[idx[i]], power[idx[i]], nmed_n[idx[i]]])
 print(t)
 
+data = t.get_string()
+
+with open('power.txt', 'w') as f:
+    f.write(data)
+
 N=len(nmed_n)
 colors = np.random.rand(N)
 point_area = (10 * np.random.rand(N))**2  # 0 to 15 point radii
@@ -101,6 +106,11 @@ t = PrettyTable(['idx', 'num aprrox', 'type', 'area', 'power', 'nmed_n'])
 for i in range(len(idx)):
 	t.add_row([idx[i], num_apprx[idx[i]], sum_type[idx[i]], area[idx[i]], power[idx[i]], nmed_n[idx[i]]])
 print(t)
+
+data = t.get_string()
+
+with open('area.txt', 'w') as f:
+    f.write(data)
 
 N=len(nmed_n)
 colors = np.random.rand(N)
@@ -138,6 +148,11 @@ t = PrettyTable(['idx', 'num aprrox', 'type', 'area', 'power', 'nmed_n'])
 for i in range(len(idx)):
 	t.add_row([idx[i], num_apprx[idx[i]], sum_type[idx[i]], area[idx[i]], power[idx[i]], nmed_n[idx[i]]])
 print(t)
+
+data = t.get_string()
+
+with open('metrica.txt', 'w') as f:
+    f.write(data)
 
 N=len(nmed_n)
 colors = np.random.rand(N)
